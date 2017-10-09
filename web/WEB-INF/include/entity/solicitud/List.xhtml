@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="SolicitudListForm">
+
+        <p:panel header="#{myBundle.ListSolicitudTitle}">
+            <p:contextMenu id="SolicitudDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{myBundle.Create}" onclick="document.getElementById('SolicitudListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{myBundle.View}" onclick="document.getElementById('SolicitudListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{myBundle.Edit}" onclick="document.getElementById('SolicitudListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('SolicitudListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.SolicitudMenuItem_historiaEstadoCollection}" icon="ui-icon-search"  action="#{solicitudController.navigateHistoriaEstadoCollection}" disabled="#{solicitudController.isHistoriaEstadoCollectionEmpty}" ajax="false"/>  
+                <p:menuitem value="#{myBundle.SolicitudMenuItem_rutaCollection}" icon="ui-icon-search"  action="#{solicitudController.navigateRutaCollection}" disabled="#{solicitudController.isRutaCollectionEmpty}" ajax="false"/>  
+                <p:menuitem value="#{myBundle.SolicitudMenuItem_idUsuarioAprobador}" icon="ui-icon-search"  actionListener="#{solicitudController.prepareIdUsuarioAprobador}" update=":UsuarioViewForm" oncomplete="PF('UsuarioViewDialog').show()" disabled="#{empty solicitudController.selected.idUsuarioAprobador}"/>  
+                <p:menuitem value="#{myBundle.SolicitudMenuItem_idComision}" icon="ui-icon-search"  actionListener="#{solicitudController.prepareIdComision}" update=":ComisionViewForm" oncomplete="PF('ComisionViewDialog').show()" disabled="#{empty solicitudController.selected.idComision}"/>  
+                <p:menuitem value="#{myBundle.SolicitudMenuItem_idUsuarioGestor}" icon="ui-icon-search"  actionListener="#{solicitudController.prepareIdUsuarioGestor}" update=":UsuarioViewForm" oncomplete="PF('UsuarioViewDialog').show()" disabled="#{empty solicitudController.selected.idUsuarioGestor}"/>  
+                <p:menuitem value="#{myBundle.SolicitudMenuItem_idTipoComision}" icon="ui-icon-search"  actionListener="#{solicitudController.prepareIdTipoComision}" update=":TipoSolicitudViewForm" oncomplete="PF('TipoSolicitudViewDialog').show()" disabled="#{empty solicitudController.selected.idTipoComision}"/>  
+                <p:menuitem value="#{myBundle.SolicitudMenuItem_idTipoUsoVehiculo}" icon="ui-icon-search"  actionListener="#{solicitudController.prepareIdTipoUsoVehiculo}" update=":TipoUsoVehiculoViewForm" oncomplete="PF('TipoUsoVehiculoViewDialog').show()" disabled="#{empty solicitudController.selected.idTipoUsoVehiculo}"/>  
+                <p:menuitem value="#{myBundle.SolicitudMenuItem_idUsuario}" icon="ui-icon-search"  actionListener="#{solicitudController.prepareIdUsuario}" update=":UsuarioViewForm" oncomplete="PF('UsuarioViewDialog').show()" disabled="#{empty solicitudController.selected.idUsuario}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{solicitudController.items}"
+                         lazy="false"
+                         rowKey="#{item.idSolicitud}"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{solicitudController.selected}"
+                         filteredValue="#{solicitudController.filteredItems}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{solicitudController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.idSolicitud}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:SolicitudDataTableContextMenu" listener="#{solicitudController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:SolicitudDataTableContextMenu" listener="#{solicitudController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{solicitudController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('SolicitudListForm:viewButton').click();"/>
+                
+                <ui:remove>
+                <p:column sortBy="#{item.idSolicitud}" filterBy="#{item.idSolicitud}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListSolicitudTitle_idSolicitud}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idSolicitud}"/>
+                </p:column>
+                </ui:remove>
+
+                <p:column sortBy="#{item.fechaHoraSolicitud}" filterBy="#{item.fechaHoraSolicitud}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListSolicitudTitle_fechaHoraSolicitud}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaHoraSolicitud}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+                <ui:remove>
+                <p:column sortBy="#{item.usuarioPdh}" filterBy="#{item.usuarioPdh}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListSolicitudTitle_usuarioPdh}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.usuarioPdh}"/>
+                </p:column>
+                </ui:remove>
+
+                <p:column sortBy="#{item.nombreEncargado}" filterBy="#{item.nombreEncargado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListSolicitudTitle_nombreEncargado}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombreEncargado}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.telefono}" filterBy="#{item.telefono}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListSolicitudTitle_telefono}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.telefono}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.cantidadPasajeros}" filterBy="#{item.cantidadPasajeros}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListSolicitudTitle_cantidadPasajeros}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cantidadPasajeros}"/>
+                </p:column>
+
+                <ui:remove>
+                    <p:column sortBy="#{item.fechaHoraSalida}" filterBy="#{item.fechaHoraSalida}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListSolicitudTitle_fechaHoraSalida}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.fechaHoraSalida}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                    </p:column>
+                </ui:remove>
+                <ui:remove>
+                    <p:column sortBy="#{item.fechaHoraRegreso}" filterBy="#{item.fechaHoraRegreso}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListSolicitudTitle_fechaHoraRegreso}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.fechaHoraRegreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                    </p:column>
+                </ui:remove>
+                <ui:remove>
+                    <p:column sortBy="#{item.comentario}" filterBy="#{item.comentario}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListSolicitudTitle_comentario}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.comentario}"/>
+                    </p:column>
+                </ui:remove>
+                <ui:remove>
+                    <p:column sortBy="#{item.adicional1}" filterBy="#{item.adicional1}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListSolicitudTitle_adicional1}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.adicional1}"/>
+                    </p:column>
+                </ui:remove>
+                <ui:remove>
+                    <p:column sortBy="#{item.adicional2}" filterBy="#{item.adicional2}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListSolicitudTitle_adicional2}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.adicional2}"/>
+                    </p:column>
+                </ui:remove>
+                <ui:remove>
+                    <p:column sortBy="#{item.adicional3}" filterBy="#{item.adicional3}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListSolicitudTitle_adicional3}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.adicional3}"/>
+                    </p:column>
+                </ui:remove>
+                <ui:remove>
+                    <p:column sortBy="#{item.adicional4}" filterBy="#{item.adicional4}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListSolicitudTitle_adicional4}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.adicional4}"/>
+                    </p:column>
+                </ui:remove>
+                <ui:remove>
+                    <p:column sortBy="#{item.idUsuarioAprobador.idUsuario}" filterBy="#{item.idUsuarioAprobador.idUsuario}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListSolicitudTitle_idUsuarioAprobador}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idUsuarioAprobador.idUsuario}"/>
+                    </p:column>
+                </ui:remove>
+                <ui:remove>
+                    <p:column sortBy="#{item.idComision.idComision}" filterBy="#{item.idComision.idComision}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListSolicitudTitle_idComision}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idComision.idComision}"/>
+                    </p:column>
+                </ui:remove>
+                <ui:remove>
+                    <p:column sortBy="#{item.idUsuarioGestor.idUsuario}" filterBy="#{item.idUsuarioGestor.idUsuario}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListSolicitudTitle_idUsuarioGestor}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idUsuarioGestor.idUsuario}"/>
+                    </p:column>
+                </ui:remove>
+                <ui:remove>
+                    <p:column sortBy="#{item.idTipoComision.descripcion}" filterBy="#{item.idTipoComision.descripcion}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListSolicitudTitle_idTipoComision}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idTipoComision.descripcion}"/>
+                    </p:column>
+                </ui:remove>
+                <ui:remove>
+                    <p:column sortBy="#{item.idTipoUsoVehiculo.descripcion}" filterBy="#{item.idTipoUsoVehiculo.descripcion}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListSolicitudTitle_idTipoUsoVehiculo}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idTipoUsoVehiculo.descripcion}"/>
+                    </p:column>
+                </ui:remove>
+                <ui:remove>
+                    <p:column sortBy="#{item.idUsuario.idUsuario}" filterBy="#{item.idUsuario.idUsuario}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListSolicitudTitle_idUsuario}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idUsuario.idUsuario}"/>
+                    </p:column>
+                </ui:remove>
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{solicitudController.prepareCreate}" update=":SolicitudCreateForm" oncomplete="PF('SolicitudCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":SolicitudViewForm" oncomplete="PF('SolicitudViewDialog').show()" disabled="#{empty solicitudController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":SolicitudEditForm" oncomplete="PF('SolicitudEditDialog').show()" disabled="#{empty solicitudController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{solicitudController.delete}" update=":growl,datalist" disabled="#{empty solicitudController.selected}">
+                <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

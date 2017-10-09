@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ComisionViewDlg" widgetVar="ComisionViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewComisionTitle}" closeOnEscape="true">
+
+            <h:form id="ComisionViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{comisionController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewComisionLabel_idComision}"/>
+                        <h:outputText value="#{comisionController.selected.idComision}" title="#{myBundle.ViewComisionTitle_idComision}"/>
+
+                        <h:outputText value="#{myBundle.ViewComisionLabel_fechaHoraSalida}"/>
+                        <h:outputText value="#{comisionController.selected.fechaHoraSalida}" title="#{myBundle.ViewComisionTitle_fechaHoraSalida}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewComisionLabel_fechaHoraRegreso}"/>
+                        <h:outputText value="#{comisionController.selected.fechaHoraRegreso}" title="#{myBundle.ViewComisionTitle_fechaHoraRegreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewComisionLabel_kmSalida}"/>
+                        <h:outputText value="#{comisionController.selected.kmSalida}" title="#{myBundle.ViewComisionTitle_kmSalida}"/>
+
+                        <h:outputText value="#{myBundle.ViewComisionLabel_kmRegreso}"/>
+                        <h:outputText value="#{comisionController.selected.kmRegreso}" title="#{myBundle.ViewComisionTitle_kmRegreso}"/>
+
+                        <h:outputText value="#{myBundle.ViewComisionLabel_informePiloto}"/>
+                        <h:outputText value="#{comisionController.selected.informePiloto}" title="#{myBundle.ViewComisionTitle_informePiloto}"/>
+
+                        <h:outputText value="#{myBundle.ViewComisionLabel_idPiloto}"/>
+                        <h:outputText value="#{comisionController.selected.idPiloto.idPiloto}"/>
+
+                        <h:outputText value="#{myBundle.ViewComisionLabel_idTipoComision}"/>
+                        <h:outputText value="#{comisionController.selected.idTipoComision.descripcion}"/>
+
+                        <h:outputText value="#{myBundle.ViewComisionLabel_placa}"/>
+                        <h:outputText value="#{comisionController.selected.placa.placa}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('ComisionViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

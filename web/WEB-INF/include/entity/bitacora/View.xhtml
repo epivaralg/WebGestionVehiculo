@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="BitacoraViewDlg" widgetVar="BitacoraViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewBitacoraTitle}" closeOnEscape="true">
+
+            <h:form id="BitacoraViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{bitacoraController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewBitacoraLabel_idBitacora}"/>
+                        <h:outputText value="#{bitacoraController.selected.idBitacora}" title="#{myBundle.ViewBitacoraTitle_idBitacora}"/>
+
+                        <h:outputText value="#{myBundle.ViewBitacoraLabel_fechaHora}"/>
+                        <h:outputText value="#{bitacoraController.selected.fechaHora}" title="#{myBundle.ViewBitacoraTitle_fechaHora}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewBitacoraLabel_tabla}"/>
+                        <h:outputText value="#{bitacoraController.selected.tabla}" title="#{myBundle.ViewBitacoraTitle_tabla}"/>
+
+                        <h:outputText value="#{myBundle.ViewBitacoraLabel_campo}"/>
+                        <h:outputText value="#{bitacoraController.selected.campo}" title="#{myBundle.ViewBitacoraTitle_campo}"/>
+
+                        <h:outputText value="#{myBundle.ViewBitacoraLabel_valorAnterior}"/>
+                        <h:outputText value="#{bitacoraController.selected.valorAnterior}" title="#{myBundle.ViewBitacoraTitle_valorAnterior}"/>
+
+                        <h:outputText value="#{myBundle.ViewBitacoraLabel_valorNuevo}"/>
+                        <h:outputText value="#{bitacoraController.selected.valorNuevo}" title="#{myBundle.ViewBitacoraTitle_valorNuevo}"/>
+
+                        <h:outputText value="#{myBundle.ViewBitacoraLabel_idTipoBitacora}"/>
+                        <h:outputText value="#{bitacoraController.selected.idTipoBitacora.descripcion}"/>
+
+                        <h:outputText value="#{myBundle.ViewBitacoraLabel_idUsuario}"/>
+                        <h:outputText value="#{bitacoraController.selected.idUsuario.idUsuario}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('BitacoraViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

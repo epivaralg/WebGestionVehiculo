@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PilotoViewDlg" widgetVar="PilotoViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewPilotoTitle}" closeOnEscape="true">
+
+            <h:form id="PilotoViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{pilotoController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewPilotoLabel_idPiloto}"/>
+                        <h:outputText value="#{pilotoController.selected.idPiloto}" title="#{myBundle.ViewPilotoTitle_idPiloto}"/>
+
+                        <h:outputText value="#{myBundle.ViewPilotoLabel_usuarioPilotoPdh}"/>
+                        <h:outputText value="#{pilotoController.selected.usuarioPilotoPdh}" title="#{myBundle.ViewPilotoTitle_usuarioPilotoPdh}"/>
+
+                        <h:outputText value="#{myBundle.ViewPilotoLabel_nombre}"/>
+                        <h:outputText value="#{pilotoController.selected.nombre}" title="#{myBundle.ViewPilotoTitle_nombre}"/>
+
+                        <h:outputText value="#{myBundle.ViewPilotoLabel_apellido}"/>
+                        <h:outputText value="#{pilotoController.selected.apellido}" title="#{myBundle.ViewPilotoTitle_apellido}"/>
+
+                        <h:outputText value="#{myBundle.ViewPilotoLabel_fechaNacimiento}"/>
+                        <h:outputText value="#{pilotoController.selected.fechaNacimiento}" title="#{myBundle.ViewPilotoTitle_fechaNacimiento}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewPilotoLabel_telefono}"/>
+                        <h:outputText value="#{pilotoController.selected.telefono}" title="#{myBundle.ViewPilotoTitle_telefono}"/>
+
+                        <h:outputText value="#{myBundle.ViewPilotoLabel_adicional1}"/>
+                        <h:outputText value="#{pilotoController.selected.adicional1}" title="#{myBundle.ViewPilotoTitle_adicional1}"/>
+
+                        <h:outputText value="#{myBundle.ViewPilotoLabel_adicional2}"/>
+                        <h:outputText value="#{pilotoController.selected.adicional2}" title="#{myBundle.ViewPilotoTitle_adicional2}"/>
+
+                        <h:outputText value="#{myBundle.ViewPilotoLabel_adicional3}"/>
+                        <h:outputText value="#{pilotoController.selected.adicional3}" title="#{myBundle.ViewPilotoTitle_adicional3}"/>
+
+                        <h:outputText value="#{myBundle.ViewPilotoLabel_adicional4}"/>
+                        <h:outputText value="#{pilotoController.selected.adicional4}" title="#{myBundle.ViewPilotoTitle_adicional4}"/>
+
+                        <h:outputText value="#{myBundle.ViewPilotoLabel_idEstadoPiloto}"/>
+                        <h:outputText value="#{pilotoController.selected.idEstadoPiloto.descripcion}"/>
+
+                        <h:outputText value="#{myBundle.ViewPilotoLabel_idGrupo}"/>
+                        <h:outputText value="#{pilotoController.selected.idGrupo.descripcion}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('PilotoViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

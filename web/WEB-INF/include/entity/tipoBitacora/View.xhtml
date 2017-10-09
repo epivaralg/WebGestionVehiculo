@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TipoBitacoraViewDlg" widgetVar="TipoBitacoraViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewTipoBitacoraTitle}" closeOnEscape="true">
+
+            <h:form id="TipoBitacoraViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{tipoBitacoraController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewTipoBitacoraLabel_idTipoBitacora}"/>
+                        <h:outputText value="#{tipoBitacoraController.selected.idTipoBitacora}" title="#{myBundle.ViewTipoBitacoraTitle_idTipoBitacora}"/>
+
+                        <h:outputText value="#{myBundle.ViewTipoBitacoraLabel_descripcion}"/>
+                        <h:outputText value="#{tipoBitacoraController.selected.descripcion}" title="#{myBundle.ViewTipoBitacoraTitle_descripcion}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('TipoBitacoraViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="LineaListForm">
+
+        <p:panel header="#{myBundle.ListLineaTitle}">
+            <p:contextMenu id="LineaDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{myBundle.Create}" onclick="document.getElementById('LineaListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{myBundle.View}" onclick="document.getElementById('LineaListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{myBundle.Edit}" onclick="document.getElementById('LineaListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('LineaListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.LineaMenuItem_idMarca}" icon="ui-icon-search"  actionListener="#{lineaController.prepareIdMarca}" update=":MarcaViewForm" oncomplete="PF('MarcaViewDialog').show()" disabled="#{empty lineaController.selected.idMarca}"/>  
+                <p:menuitem value="#{myBundle.LineaMenuItem_vehiculoCollection}" icon="ui-icon-search"  action="#{lineaController.navigateVehiculoCollection}" disabled="#{lineaController.isVehiculoCollectionEmpty}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{lineaController.items}"
+                         lazy="false"
+                         rowKey="#{item.idLinea}"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{lineaController.selected}"
+                         filteredValue="#{lineaController.filteredItems}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{lineaController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.idLinea}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:LineaDataTableContextMenu" listener="#{lineaController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:LineaDataTableContextMenu" listener="#{lineaController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{lineaController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('LineaListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idLinea}" filterBy="#{item.idLinea}">
+                    <f:facet name="header">
+                        <h:outputText value="ID"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idLinea}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.descripcion}" filterBy="#{item.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListLineaTitle_descripcion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.descripcion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idMarca.descripcion}" filterBy="#{item.idMarca.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListLineaTitle_idMarca}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idMarca.descripcion}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{lineaController.prepareCreate}" update=":LineaCreateForm" oncomplete="PF('LineaCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":LineaViewForm" oncomplete="PF('LineaViewDialog').show()" disabled="#{empty lineaController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":LineaEditForm" oncomplete="PF('LineaEditDialog').show()" disabled="#{empty lineaController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{lineaController.delete}" update=":growl,datalist" disabled="#{empty lineaController.selected}">
+                <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

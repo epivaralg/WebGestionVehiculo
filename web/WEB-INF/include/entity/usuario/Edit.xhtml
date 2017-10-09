@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="UsuarioEditDlg" widgetVar="UsuarioEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditUsuarioTitle}" closeOnEscape="true">
+
+            <h:form id="UsuarioEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{usuarioController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditUsuarioLabel_idUsuario}" for="idUsuario" />
+                        <h:outputText id="idUsuario" value="#{usuarioController.selected.idUsuario}" />
+
+                        <p:outputLabel value="#{myBundle.EditUsuarioLabel_usuarioGv}" for="usuarioGv" />
+                        <p:inputText id="usuarioGv" value="#{usuarioController.selected.usuarioGv}" title="#{myBundle.EditUsuarioTitle_usuarioGv}" size="20" maxlength="20"/>
+
+                        <p:outputLabel value="#{myBundle.EditUsuarioLabel_usuarioPdh}" for="usuarioPdh" />
+                        <p:inputText id="usuarioPdh" value="#{usuarioController.selected.usuarioPdh}" title="#{myBundle.EditUsuarioTitle_usuarioPdh}" size="20" maxlength="20"/>
+
+                        <p:outputLabel value="#{myBundle.EditUsuarioLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{usuarioController.selected.nombre}" title="#{myBundle.EditUsuarioTitle_nombre}" size="20" maxlength="20"/>
+
+                        <p:outputLabel value="#{myBundle.EditUsuarioLabel_apellido}" for="apellido" />
+                        <p:inputText id="apellido" value="#{usuarioController.selected.apellido}" title="#{myBundle.EditUsuarioTitle_apellido}" size="20" maxlength="20"/>
+
+                        <p:outputLabel value="#{myBundle.EditUsuarioLabel_correo}" for="correo" />
+                        <p:inputText id="correo" value="#{usuarioController.selected.correo}" title="#{myBundle.EditUsuarioTitle_correo}" size="20" maxlength="20"/>
+
+                        <p:outputLabel value="#{myBundle.EditUsuarioLabel_telefono}" for="telefono" />
+                        <p:inputText id="telefono" value="#{usuarioController.selected.telefono}" title="#{myBundle.EditUsuarioTitle_telefono}" size="20" maxlength="20"/>
+
+                        <p:outputLabel value="#{myBundle.EditUsuarioLabel_password}" for="password" />
+                        <p:password  id="password" value="#{usuarioController.selected.password}" title="#{myBundle.EditUsuarioTitle_password}" />
+
+                        <p:outputLabel value="#{myBundle.EditUsuarioLabel_activo}" for="activo" />
+                        <p:inputText id="activo" value="#{usuarioController.selected.activo}" title="#{myBundle.EditUsuarioTitle_activo}"/>
+
+                        <p:outputLabel value="#{myBundle.EditUsuarioLabel_idRol}" for="idRol" />
+                        <p:selectOneMenu id="idRol" value="#{usuarioController.selected.idRol}"  converter="rolConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{rolController.items}"
+                                           var="idRolItem"
+                                           itemValue="#{idRolItem}"
+                                           itemLabel="#{idRolItem.descripcion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.EditUsuarioLabel_idUnidad}" for="idUnidad" />
+                        <p:selectOneMenu id="idUnidad" value="#{usuarioController.selected.idUnidad}"  converter="unidadConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{unidadController.items}"
+                                           var="idUnidadItem"
+                                           itemValue="#{idUnidadItem}"
+                                           itemLabel="#{idUnidadItem.descripcion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{usuarioController.save}" value="#{myBundle.Save}" update="display,:UsuarioListForm:datalist,:UsuarioListForm:UsuarioDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('UsuarioEditDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('UsuarioEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

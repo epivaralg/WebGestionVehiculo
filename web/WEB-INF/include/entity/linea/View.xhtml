@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="LineaViewDlg" widgetVar="LineaViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewLineaTitle}" closeOnEscape="true">
+
+            <h:form id="LineaViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{lineaController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewLineaLabel_idLinea}"/>
+                        <h:outputText value="#{lineaController.selected.idLinea}" title="#{myBundle.ViewLineaTitle_idLinea}"/>
+
+                        <h:outputText value="#{myBundle.ViewLineaLabel_descripcion}"/>
+                        <h:outputText value="#{lineaController.selected.descripcion}" title="#{myBundle.ViewLineaTitle_descripcion}"/>
+
+                        <h:outputText value="#{myBundle.ViewLineaLabel_idMarca}"/>
+                        <h:outputText value="#{lineaController.selected.idMarca.descripcion}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('LineaViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

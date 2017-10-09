@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ComisionEditDlg" widgetVar="ComisionEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditComisionTitle}" closeOnEscape="true">
+
+            <h:form id="ComisionEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{comisionController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditComisionLabel_idComision}" for="idComision" />
+                        <h:outputText id="idComision" value="#{comisionController.selected.idComision}" />
+
+                        <p:outputLabel value="#{myBundle.EditComisionLabel_fechaHoraSalida}" for="fechaHoraSalida" />
+                        <p:calendar id="fechaHoraSalida" pattern="MM/dd/yyyy HH:mm:ss" value="#{comisionController.selected.fechaHoraSalida}" title="#{myBundle.EditComisionTitle_fechaHoraSalida}"  showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.EditComisionLabel_fechaHoraRegreso}" for="fechaHoraRegreso" />
+                        <p:calendar id="fechaHoraRegreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{comisionController.selected.fechaHoraRegreso}" title="#{myBundle.EditComisionTitle_fechaHoraRegreso}"  showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.EditComisionLabel_kmSalida}" for="kmSalida" />
+                        <p:inputText id="kmSalida" value="#{comisionController.selected.kmSalida}" title="#{myBundle.EditComisionTitle_kmSalida}"/>
+
+                        <p:outputLabel value="#{myBundle.EditComisionLabel_kmRegreso}" for="kmRegreso" />
+                        <p:inputText id="kmRegreso" value="#{comisionController.selected.kmRegreso}" title="#{myBundle.EditComisionTitle_kmRegreso}"/>
+
+                        <p:outputLabel value="#{myBundle.EditComisionLabel_informePiloto}" for="informePiloto" />
+                        <p:inputText id="informePiloto" value="#{comisionController.selected.informePiloto}" title="#{myBundle.EditComisionTitle_informePiloto}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{myBundle.EditComisionLabel_idPiloto}" for="idPiloto" />
+                        <p:selectOneMenu id="idPiloto" value="#{comisionController.selected.idPiloto}"  converter="pilotoConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{pilotoController.items}"
+                                           var="idPilotoItem"
+                                           itemValue="#{idPilotoItem}"
+                                           itemLabel="#{idPilotoItem.idPiloto.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.EditComisionLabel_idTipoComision}" for="idTipoComision" />
+                        <p:selectOneMenu id="idTipoComision" value="#{comisionController.selected.idTipoComision}"  converter="tipoComisionConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{tipoComisionController.items}"
+                                           var="idTipoComisionItem"
+                                           itemValue="#{idTipoComisionItem}"
+                                           itemLabel="#{idTipoComisionItem.descripcion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.EditComisionLabel_placa}" for="placa" />
+                        <p:selectOneMenu id="placa" value="#{comisionController.selected.placa}"  converter="vehiculoConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{vehiculoController.items}"
+                                           var="placaItem"
+                                           itemValue="#{placaItem}"
+                                           itemLabel="#{placaItem.placa.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{comisionController.save}" value="#{myBundle.Save}" update="display,:ComisionListForm:datalist,:ComisionListForm:ComisionDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ComisionEditDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('ComisionEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

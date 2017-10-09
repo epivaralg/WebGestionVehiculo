@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <h:form id="menuitem">
+            <center>
+                <table>
+                    <td width="650"/>
+                    <td width="400" style="color: black; clear: left;text-align: center">
+                            <h1>GESTIÓN DE VEHICULO PDH</h1>
+                    </td> 
+                    <td width="550" align="right" style="border: ">
+                        <p:menubar style="border: none; float: right" >
+                            <p:menuitem value="#{ingresoController.username.toUpperCase()}" />
+                            <p:menuitem icon="ui-icon-person" />
+                            <p:menuitem icon="ui-icon-power" />
+                        </p:menubar>
+                    </td>
+                </table>
+                </center>
+        </h:form>
+    </ui:composition>
+
+</html>

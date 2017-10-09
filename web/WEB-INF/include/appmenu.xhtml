@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <h:form id="menuForm">
+            <center>
+            <p:menu style="border: none">  
+                <p:submenu label="#{myBundle.NegocioHeading}">
+                    <p:menuitem value="#{myBundle.NegocioUsuario}" outcome="/app/usuario/index" />
+                    <p:menuitem value="#{myBundle.ComisionHeading}" outcome="/app/comision/index" />
+                    <p:menuitem value="#{myBundle.BitacoraHeading}" outcome="/app/bitacora/index" />
+                    <p:menuitem value="#{myBundle.VehiculoHeading}" outcome="/app/vehiculo/index" />
+                    <p:menuitem value="#{myBundle.PilotoHeading}" outcome="/app/piloto/index" />
+                    <p:menuitem value="#{myBundle.SolicitudHeading}" outcome="/app/solicitud/index" />
+                    <p:submenu label="MANTENIMIENTO">
+                        <p:menuitem value="#{myBundle.TipoBitacoraHeading}"  outcome="/app/tipoBitacora/index"/>
+                        <p:menuitem value="#{myBundle.DepartamentoHeading}" outcome="/app/departamento/index" />
+                        <p:menuitem value="#{myBundle.EstadoPilotoHeading}" outcome="/app/estadoPiloto/index" />
+                        <p:menuitem value="#{myBundle.EstadoSolicitudHeading}" outcome="/app/estadoSolicitud/index" />
+                        <p:menuitem value="#{myBundle.EstadoVehiculoHeading}" outcome="/app/estadoVehiculo/index" />
+                        <p:menuitem value="#{myBundle.GrupoHeading}" outcome="/app/grupo/index" />
+                        <p:menuitem value="#{myBundle.HistoriaEstadoHeading}" outcome="/app/historiaEstado/index" />
+                        <p:menuitem value="#{myBundle.LicenciaHeading}" outcome="/app/licencia/index" />
+                        <p:menuitem value="#{myBundle.LineaHeading}" outcome="/app/linea/index" />
+                        <p:menuitem value="#{myBundle.MarcaHeading}" outcome="/app/marca/index" />
+                        <p:menuitem value="#{myBundle.MunicipioHeading}" outcome="/app/municipio/index" />
+                        <p:menuitem value="#{myBundle.OficinaHeading}" outcome="/app/oficina/index" />
+                        <p:menuitem value="#{myBundle.RazonEstadoHeading}" outcome="/app/razonEstado/index" />
+                        <p:menuitem value="#{myBundle.RolHeading}" outcome="/app/rol/index" />
+                        <p:menuitem value="#{myBundle.RutaHeading}" outcome="/app/ruta/index" />
+                        <p:menuitem value="#{myBundle.TipoComisionHeading}" outcome="/app/tipoComision/index" />
+                        <p:menuitem value="#{myBundle.TipoLicenciaHeading}" outcome="/app/tipoLicencia/index" />
+                        <p:menuitem value="#{myBundle.TipoSolicitudHeading}" outcome="/app/tipoSolicitud/index" />
+                        <p:menuitem value="#{myBundle.TipoUsoVehiculoHeading}" outcome="/app/tipoUsoVehiculo/index" />
+                        <p:menuitem value="#{myBundle.TipoVehiculoHeading}" outcome="/app/tipoVehiculo/index" />
+                        <p:menuitem value="#{myBundle.UnidadHeading}" outcome="/app/unidad/index" />
+                    </p:submenu>
+                </p:submenu>
+            </p:menu>
+                </center>
+        </h:form>
+    </ui:composition>
+
+</html>

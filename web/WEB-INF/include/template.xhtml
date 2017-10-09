@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    
+    <h:head>
+        <title><ui:insert name="title">Default Title</ui:insert></title>
+         <h:outputStylesheet library="css" name="pfcrud.css"/>
+        <h:outputScript library="scripts" name="pfcrud.js"/>
+
+    </h:head>
+    <h:body style="background-color: grey">
+       
+            <p:growl id="growl" life="3000" />
+            <p:layout fullPage="true" >
+                <p:layoutUnit id="west" position="west" size="210" header="#{myBundle.AppName}" collapsible="true" style="background-color: black">
+                    <ui:include src="/WEB-INF/include/appmenu.xhtml"/>
+                </p:layoutUnit>
+                <p:layoutUnit position="center" style="background-color: black">
+                    <ui:insert name="body"/>
+                </p:layoutUnit>
+                <p:layoutUnit position="north" style="background-color: black">
+                     <ui:include src="/WEB-INF/include/menuperfil.xhtml"/>
+                </p:layoutUnit>
+            </p:layout>
+    </h:body>
+</html>

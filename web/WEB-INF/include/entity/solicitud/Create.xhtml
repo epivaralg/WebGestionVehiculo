@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="SolicitudCreateDlg" widgetVar="SolicitudCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreateSolicitudTitle}" closeOnEscape="true">
+
+            <h:form id="SolicitudCreateForm">
+
+                <h:panelGroup id="display" rendered="#{solicitudController.selected != null}">
+                    <p:tabView id="SolicitudTabView">
+
+                        <p:tab id="SolicitudTab1" title="#{myBundle.TabHeaderPrefix} 1">
+                            <p:panelGrid columns="2" columnClasses="column">
+                                <ui:remove>
+                                <p:outputLabel value="#{myBundle.CreateSolicitudLabel_fechaHoraSolicitud}" for="fechaHoraSolicitud" />
+                                <p:calendar id="fechaHoraSolicitud" pattern="MM/dd/yyyy HH:mm:ss" value="#{solicitudController.selected.fechaHoraSolicitud}" title="#{myBundle.CreateSolicitudTitle_fechaHoraSolicitud}"  showOn="button"/>
+                                </ui:remove>
+                                <p:outputLabel value="#{myBundle.CreateSolicitudLabel_usuarioPdh}" for="usuarioPdh" />
+                                <p:inputText id="usuarioPdh" value="#{solicitudController.selected.usuarioPdh}" title="#{myBundle.CreateSolicitudTitle_usuarioPdh}" size="20" maxlength="20"/>
+                                <ui:remove>
+                                <p:outputLabel value="#{myBundle.CreateSolicitudLabel_nombreEncargado}" for="nombreEncargado" />
+                                <p:inputText id="nombreEncargado" value="#{solicitudController.selected.nombreEncargado}" title="#{myBundle.CreateSolicitudTitle_nombreEncargado}" size="50" maxlength="50"/>
+                                </ui:remove>
+                                <p:outputLabel value="#{myBundle.CreateSolicitudLabel_telefono}" for="telefono" />
+                                <p:inputText id="telefono" value="#{solicitudController.selected.telefono}" title="#{myBundle.CreateSolicitudTitle_telefono}" size="20" maxlength="20"/>
+
+                                <p:outputLabel value="#{myBundle.CreateSolicitudLabel_cantidadPasajeros}" for="cantidadPasajeros" />
+                                <p:inputText id="cantidadPasajeros" value="#{solicitudController.selected.cantidadPasajeros}" title="#{myBundle.CreateSolicitudTitle_cantidadPasajeros}"/>
+
+                                <p:outputLabel value="#{myBundle.CreateSolicitudLabel_fechaHoraSalida}" for="fechaHoraSalida" />
+                                <p:calendar id="fechaHoraSalida" pattern="MM/dd/yyyy HH:mm:ss" value="#{solicitudController.selected.fechaHoraSalida}" title="#{myBundle.CreateSolicitudTitle_fechaHoraSalida}"  showOn="button"/>
+
+                                <p:outputLabel value="#{myBundle.CreateSolicitudLabel_fechaHoraRegreso}" for="fechaHoraRegreso" />
+                                <p:calendar id="fechaHoraRegreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{solicitudController.selected.fechaHoraRegreso}" title="#{myBundle.CreateSolicitudTitle_fechaHoraRegreso}"  showOn="button"/>
+
+                                <p:outputLabel value="#{myBundle.CreateSolicitudLabel_comentario}" for="comentario" />
+                                <p:inputText id="comentario" value="#{solicitudController.selected.comentario}" title="#{myBundle.CreateSolicitudTitle_comentario}" size="100" maxlength="100"/>
+
+                                <p:outputLabel value="#{myBundle.CreateSolicitudLabel_adicional1}" for="adicional1" />
+                                <p:inputText id="adicional1" value="#{solicitudController.selected.adicional1}" title="#{myBundle.CreateSolicitudTitle_adicional1}" size="20" maxlength="20"/>
+
+                                <p:outputLabel value="#{myBundle.CreateSolicitudLabel_adicional2}" for="adicional2" />
+                                <p:inputText id="adicional2" value="#{solicitudController.selected.adicional2}" title="#{myBundle.CreateSolicitudTitle_adicional2}" size="20" maxlength="20"/>
+
+                                <p:outputLabel value="#{myBundle.CreateSolicitudLabel_adicional3}" for="adicional3" />
+                                <p:inputText id="adicional3" value="#{solicitudController.selected.adicional3}" title="#{myBundle.CreateSolicitudTitle_adicional3}" size="20" maxlength="20"/>
+
+                                <p:outputLabel value="#{myBundle.CreateSolicitudLabel_adicional4}" for="adicional4" />
+                                <p:inputText id="adicional4" value="#{solicitudController.selected.adicional4}" title="#{myBundle.CreateSolicitudTitle_adicional4}" size="40" maxlength="40"/>
+                                <ui:remove>
+                                <p:outputLabel value="#{myBundle.CreateSolicitudLabel_idUsuarioAprobador}" for="idUsuarioAprobador" />
+                                <p:selectOneMenu id="idUsuarioAprobador" value="#{solicitudController.selected.idUsuarioAprobador}"  converter="usuarioConverter">
+                                    <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{usuarioController.items}"
+                                                   var="idUsuarioAprobadorItem"
+                                                   itemValue="#{idUsuarioAprobadorItem}"
+                                                   itemLabel="#{idUsuarioAprobadorItem.idUsuario.toString()}"
+                                                   />
+
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="#{myBundle.CreateSolicitudLabel_idComision}" for="idComision" />
+                                <p:selectOneMenu id="idComision" value="#{solicitudController.selected.idComision}"  converter="comisionConverter">
+                                    <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{comisionController.items}"
+                                                   var="idComisionItem"
+                                                   itemValue="#{idComisionItem}"
+                                                   itemLabel="#{idComisionItem.idComision.toString()}"
+                                                   />
+
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="#{myBundle.CreateSolicitudLabel_idUsuarioGestor}" for="idUsuarioGestor" />
+                                <p:selectOneMenu id="idUsuarioGestor" value="#{solicitudController.selected.idUsuarioGestor}"  converter="usuarioConverter">
+                                    <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{usuarioController.items}"
+                                                   var="idUsuarioGestorItem"
+                                                   itemValue="#{idUsuarioGestorItem}"
+                                                   itemLabel="#{idUsuarioGestorItem.idUsuario.toString()}"
+                                                   />
+
+                                </p:selectOneMenu>
+                                </ui:remove>
+                                <p:outputLabel value="#{myBundle.CreateSolicitudLabel_idTipoComision}" for="idTipoComision" />
+                                <p:selectOneMenu id="idTipoComision" value="#{solicitudController.selected.idTipoComision}"  converter="tipoSolicitudConverter">
+                                    <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{tipoSolicitudController.items}"
+                                                   var="idTipoComisionItem"
+                                                   itemValue="#{idTipoComisionItem}"
+                                                   itemLabel="#{idTipoComisionItem.descripcion.toString()}"
+                                                   />
+
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="#{myBundle.CreateSolicitudLabel_idTipoUsoVehiculo}" for="idTipoUsoVehiculo" />
+                                <p:selectOneMenu id="idTipoUsoVehiculo" value="#{solicitudController.selected.idTipoUsoVehiculo}"  converter="tipoUsoVehiculoConverter">
+                                    <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{tipoUsoVehiculoController.items}"
+                                                   var="idTipoUsoVehiculoItem"
+                                                   itemValue="#{idTipoUsoVehiculoItem}"
+                                                   itemLabel="#{idTipoUsoVehiculoItem.descripcion.toString()}"
+                                                   />
+
+                                </p:selectOneMenu>
+                                <ui:remove>
+                                <p:outputLabel value="#{myBundle.CreateSolicitudLabel_idUsuario}" for="idUsuario" />
+                                <p:selectOneMenu id="idUsuario" value="#{solicitudController.selected.idUsuario}"  converter="usuarioConverter">
+                                    <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{usuarioController.items}"
+                                                   var="idUsuarioItem"
+                                                   itemValue="#{idUsuarioItem}"
+                                                   itemLabel="#{idUsuarioItem.idUsuario.toString()}"
+                                                   />
+
+                                </p:selectOneMenu>
+                                </ui:remove>
+                            </p:panelGrid>
+                        </p:tab>
+                    </p:tabView>
+                    <p:commandButton actionListener="#{solicitudController.saveNew}" value="#{myBundle.Save}" update="display,:SolicitudListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('SolicitudCreateDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('SolicitudCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="RutaEditDlg" widgetVar="RutaEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditRutaTitle}" closeOnEscape="true">
+
+            <h:form id="RutaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{rutaController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditRutaLabel_idRuta}" for="idRuta" />
+                        <h:outputText id="idRuta" value="#{rutaController.selected.idRuta}" />
+
+                        <p:outputLabel value="#{myBundle.EditRutaLabel_direccion}" for="direccion" />
+                        <p:inputText id="direccion" value="#{rutaController.selected.direccion}" title="#{myBundle.EditRutaTitle_direccion}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{myBundle.EditRutaLabel_idMunicipio}" for="idMunicipio" />
+                        <p:selectOneMenu id="idMunicipio" value="#{rutaController.selected.idMunicipio}"  converter="municipioConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{municipioController.items}"
+                                           var="idMunicipioItem"
+                                           itemValue="#{idMunicipioItem}"
+                                           itemLabel="#{idMunicipioItem.descripcion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.EditRutaLabel_idSolicitud}" for="idSolicitud" />
+                        <p:selectOneMenu id="idSolicitud" value="#{rutaController.selected.idSolicitud}"  converter="solicitudConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{solicitudController.items}"
+                                           var="idSolicitudItem"
+                                           itemValue="#{idSolicitudItem}"
+                                           itemLabel="#{idSolicitudItem.idSolicitud.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{rutaController.save}" value="#{myBundle.Save}" update="display,:RutaListForm:datalist,:RutaListForm:RutaDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('RutaEditDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('RutaEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="PilotoEditDlg" widgetVar="PilotoEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditPilotoTitle}" closeOnEscape="true">
+
+            <h:form id="PilotoEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{pilotoController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditPilotoLabel_idPiloto}" for="idPiloto" />
+                        <h:outputText id="idPiloto" value="#{pilotoController.selected.idPiloto}" />
+
+                        <p:outputLabel value="#{myBundle.EditPilotoLabel_usuarioPilotoPdh}" for="usuarioPilotoPdh" />
+                        <p:inputText id="usuarioPilotoPdh" value="#{pilotoController.selected.usuarioPilotoPdh}" title="#{myBundle.EditPilotoTitle_usuarioPilotoPdh}" size="20" maxlength="20"/>
+
+                        <p:outputLabel value="#{myBundle.EditPilotoLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{pilotoController.selected.nombre}" title="#{myBundle.EditPilotoTitle_nombre}" size="20" maxlength="20"/>
+
+                        <p:outputLabel value="#{myBundle.EditPilotoLabel_apellido}" for="apellido" />
+                        <p:inputText id="apellido" value="#{pilotoController.selected.apellido}" title="#{myBundle.EditPilotoTitle_apellido}" size="20" maxlength="20"/>
+
+                        <p:outputLabel value="#{myBundle.EditPilotoLabel_fechaNacimiento}" for="fechaNacimiento" />
+                        <p:calendar id="fechaNacimiento" pattern="MM/dd/yyyy" value="#{pilotoController.selected.fechaNacimiento}" title="#{myBundle.EditPilotoTitle_fechaNacimiento}"  showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.EditPilotoLabel_telefono}" for="telefono" />
+                        <p:inputText id="telefono" value="#{pilotoController.selected.telefono}" title="#{myBundle.EditPilotoTitle_telefono}" size="20" maxlength="20"/>
+
+                        <p:outputLabel value="#{myBundle.EditPilotoLabel_adicional1}" for="adicional1" />
+                        <p:inputText id="adicional1" value="#{pilotoController.selected.adicional1}" title="#{myBundle.EditPilotoTitle_adicional1}" size="20" maxlength="20"/>
+
+                        <p:outputLabel value="#{myBundle.EditPilotoLabel_adicional2}" for="adicional2" />
+                        <p:inputText id="adicional2" value="#{pilotoController.selected.adicional2}" title="#{myBundle.EditPilotoTitle_adicional2}" size="20" maxlength="20"/>
+
+                        <p:outputLabel value="#{myBundle.EditPilotoLabel_adicional3}" for="adicional3" />
+                        <p:inputText id="adicional3" value="#{pilotoController.selected.adicional3}" title="#{myBundle.EditPilotoTitle_adicional3}" size="20" maxlength="20"/>
+
+                        <p:outputLabel value="#{myBundle.EditPilotoLabel_adicional4}" for="adicional4" />
+                        <p:inputText id="adicional4" value="#{pilotoController.selected.adicional4}" title="#{myBundle.EditPilotoTitle_adicional4}" size="20" maxlength="20"/>
+
+                        <p:outputLabel value="#{myBundle.EditPilotoLabel_idEstadoPiloto}" for="idEstadoPiloto" />
+                        <p:selectOneMenu id="idEstadoPiloto" value="#{pilotoController.selected.idEstadoPiloto}"  converter="estadoPilotoConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{estadoPilotoController.items}"
+                                           var="idEstadoPilotoItem"
+                                           itemValue="#{idEstadoPilotoItem}"
+                                           itemLabel="#{idEstadoPilotoItem.descripcion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.EditPilotoLabel_idGrupo}" for="idGrupo" />
+                        <p:selectOneMenu id="idGrupo" value="#{pilotoController.selected.idGrupo}"  converter="grupoConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{grupoController.items}"
+                                           var="idGrupoItem"
+                                           itemValue="#{idGrupoItem}"
+                                           itemLabel="#{idGrupoItem.descripcion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{pilotoController.save}" value="#{myBundle.Save}" update="display,:PilotoListForm:datalist,:PilotoListForm:PilotoDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('PilotoEditDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('PilotoEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

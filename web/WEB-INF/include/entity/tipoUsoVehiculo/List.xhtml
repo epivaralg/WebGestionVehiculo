@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="TipoUsoVehiculoListForm">
+
+        <p:panel header="#{myBundle.ListTipoUsoVehiculoTitle}">
+            <p:contextMenu id="TipoUsoVehiculoDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{myBundle.Create}" onclick="document.getElementById('TipoUsoVehiculoListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{myBundle.View}" onclick="document.getElementById('TipoUsoVehiculoListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{myBundle.Edit}" onclick="document.getElementById('TipoUsoVehiculoListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('TipoUsoVehiculoListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.TipoUsoVehiculoMenuItem_solicitudCollection}" icon="ui-icon-search"  action="#{tipoUsoVehiculoController.navigateSolicitudCollection}" disabled="#{tipoUsoVehiculoController.isSolicitudCollectionEmpty}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{tipoUsoVehiculoController.items}"
+                         lazy="false"
+                         rowKey="#{item.idTipoUsoVehiculo}"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{tipoUsoVehiculoController.selected}"
+                         filteredValue="#{tipoUsoVehiculoController.filteredItems}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{tipoUsoVehiculoController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.idTipoUsoVehiculo}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:TipoUsoVehiculoDataTableContextMenu"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:TipoUsoVehiculoDataTableContextMenu"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('TipoUsoVehiculoListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idTipoUsoVehiculo}" filterBy="#{item.idTipoUsoVehiculo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListTipoUsoVehiculoTitle_idTipoUsoVehiculo}"/>
+                    </f:facet>
+                    <h:outputText value="ID"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.descripcion}" filterBy="#{item.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListTipoUsoVehiculoTitle_descripcion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.descripcion}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{tipoUsoVehiculoController.prepareCreate}" update=":TipoUsoVehiculoCreateForm" oncomplete="PF('TipoUsoVehiculoCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":TipoUsoVehiculoViewForm" oncomplete="PF('TipoUsoVehiculoViewDialog').show()" disabled="#{empty tipoUsoVehiculoController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":TipoUsoVehiculoEditForm" oncomplete="PF('TipoUsoVehiculoEditDialog').show()" disabled="#{empty tipoUsoVehiculoController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{tipoUsoVehiculoController.delete}" update=":growl,datalist" disabled="#{empty tipoUsoVehiculoController.selected}">
+                <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

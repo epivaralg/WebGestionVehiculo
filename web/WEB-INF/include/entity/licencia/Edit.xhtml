@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="LicenciaEditDlg" widgetVar="LicenciaEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditLicenciaTitle}" closeOnEscape="true">
+
+            <h:form id="LicenciaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{licenciaController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditLicenciaLabel_idLicencia}" for="idLicencia" />
+                        <h:outputText id="idLicencia" value="#{licenciaController.selected.idLicencia}" />
+
+                        <p:outputLabel value="#{myBundle.EditLicenciaLabel_numero}" for="numero" />
+                        <p:inputText id="numero" value="#{licenciaController.selected.numero}" title="#{myBundle.EditLicenciaTitle_numero}" size="20" maxlength="20"/>
+
+                        <p:outputLabel value="#{myBundle.EditLicenciaLabel_fechaVencimiento}" for="fechaVencimiento" />
+                        <p:calendar id="fechaVencimiento" pattern="MM/dd/yyyy HH:mm:ss" value="#{licenciaController.selected.fechaVencimiento}" title="#{myBundle.EditLicenciaTitle_fechaVencimiento}"  showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.EditLicenciaLabel_idPiloto}" for="idPiloto" />
+                        <p:selectOneMenu id="idPiloto" value="#{licenciaController.selected.idPiloto}"  converter="pilotoConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{pilotoController.items}"
+                                           var="idPilotoItem"
+                                           itemValue="#{idPilotoItem}"
+                                           itemLabel="#{idPilotoItem.idPiloto.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.EditLicenciaLabel_idTipoLicencia}" for="idTipoLicencia" />
+                        <p:selectOneMenu id="idTipoLicencia" value="#{licenciaController.selected.idTipoLicencia}"  converter="tipoLicenciaConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{tipoLicenciaController.items}"
+                                           var="idTipoLicenciaItem"
+                                           itemValue="#{idTipoLicenciaItem}"
+                                           itemLabel="#{idTipoLicenciaItem.descripcion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{licenciaController.save}" value="#{myBundle.Save}" update="display,:LicenciaListForm:datalist,:LicenciaListForm:LicenciaDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('LicenciaEditDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('LicenciaEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

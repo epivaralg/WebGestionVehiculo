@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ComisionCreateDlg" widgetVar="ComisionCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreateComisionTitle}" closeOnEscape="true">
+
+            <h:form id="ComisionCreateForm">
+
+                <h:panelGroup id="display" rendered="#{comisionController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{myBundle.CreateComisionLabel_fechaHoraSalida}" for="fechaHoraSalida" />
+                        <p:calendar id="fechaHoraSalida" pattern="MM/dd/yyyy HH:mm:ss" value="#{comisionController.selected.fechaHoraSalida}" title="#{myBundle.CreateComisionTitle_fechaHoraSalida}"  showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.CreateComisionLabel_fechaHoraRegreso}" for="fechaHoraRegreso" />
+                        <p:calendar id="fechaHoraRegreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{comisionController.selected.fechaHoraRegreso}" title="#{myBundle.CreateComisionTitle_fechaHoraRegreso}"  showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.CreateComisionLabel_kmSalida}" for="kmSalida" />
+                        <p:inputText id="kmSalida" value="#{comisionController.selected.kmSalida}" title="#{myBundle.CreateComisionTitle_kmSalida}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateComisionLabel_kmRegreso}" for="kmRegreso" />
+                        <p:inputText id="kmRegreso" value="#{comisionController.selected.kmRegreso}" title="#{myBundle.CreateComisionTitle_kmRegreso}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateComisionLabel_informePiloto}" for="informePiloto" />
+                        <p:inputText id="informePiloto" value="#{comisionController.selected.informePiloto}" title="#{myBundle.CreateComisionTitle_informePiloto}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{myBundle.CreateComisionLabel_idPiloto}" for="idPiloto" />
+                        <p:selectOneMenu id="idPiloto" value="#{comisionController.selected.idPiloto}"  converter="pilotoConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{pilotoController.items}"
+                                           var="idPilotoItem"
+                                           itemValue="#{idPilotoItem}"
+                                           itemLabel="#{idPilotoItem.usuarioPilotoPdh.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.CreateComisionLabel_idTipoComision}" for="idTipoComision" />
+                        <p:selectOneMenu id="idTipoComision" value="#{comisionController.selected.idTipoComision}"  converter="tipoComisionConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{tipoComisionController.items}"
+                                           var="idTipoComisionItem"
+                                           itemValue="#{idTipoComisionItem}"
+                                           itemLabel="#{idTipoComisionItem.descripcion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.CreateComisionLabel_placa}" for="placa" />
+                        <p:selectOneMenu id="placa" value="#{comisionController.selected.placa}"  converter="vehiculoConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{vehiculoController.items}"
+                                           var="placaItem"
+                                           itemValue="#{placaItem}"
+                                           itemLabel="#{placaItem.placa.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{comisionController.saveNew}" value="#{myBundle.Save}" update="display,:ComisionListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ComisionCreateDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('ComisionCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

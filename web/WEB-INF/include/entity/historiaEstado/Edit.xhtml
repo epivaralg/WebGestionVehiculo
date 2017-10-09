@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="HistoriaEstadoEditDlg" widgetVar="HistoriaEstadoEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditHistoriaEstadoTitle}" closeOnEscape="true">
+
+            <h:form id="HistoriaEstadoEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{historiaEstadoController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditHistoriaEstadoLabel_idHistoriaEstado}" for="idHistoriaEstado" />
+                        <h:outputText id="idHistoriaEstado" value="#{historiaEstadoController.selected.idHistoriaEstado}" />
+
+                        <p:outputLabel value="#{myBundle.EditHistoriaEstadoLabel_fechaHoraEstado}" for="fechaHoraEstado" />
+                        <p:calendar id="fechaHoraEstado" pattern="MM/dd/yyyy HH:mm:ss" value="#{historiaEstadoController.selected.fechaHoraEstado}" title="#{myBundle.EditHistoriaEstadoTitle_fechaHoraEstado}"  showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.EditHistoriaEstadoLabel_comentario}" for="comentario" />
+                        <p:inputText id="comentario" value="#{historiaEstadoController.selected.comentario}" title="#{myBundle.EditHistoriaEstadoTitle_comentario}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{myBundle.EditHistoriaEstadoLabel_idRazonEstado}" for="idRazonEstado" />
+                        <p:selectOneMenu id="idRazonEstado" value="#{historiaEstadoController.selected.idRazonEstado}"  converter="razonEstadoConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{razonEstadoController.items}"
+                                           var="idRazonEstadoItem"
+                                           itemValue="#{idRazonEstadoItem}"
+                                           itemLabel="#{idRazonEstadoItem.descripcion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.EditHistoriaEstadoLabel_idSolicitud}" for="idSolicitud" />
+                        <p:selectOneMenu id="idSolicitud" value="#{historiaEstadoController.selected.idSolicitud}"  converter="solicitudConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{solicitudController.items}"
+                                           var="idSolicitudItem"
+                                           itemValue="#{idSolicitudItem}"
+                                           itemLabel="#{idSolicitudItem.idSolicitud.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{historiaEstadoController.save}" value="#{myBundle.Save}" update="display,:HistoriaEstadoListForm:datalist,:HistoriaEstadoListForm:HistoriaEstadoDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('HistoriaEstadoEditDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('HistoriaEstadoEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

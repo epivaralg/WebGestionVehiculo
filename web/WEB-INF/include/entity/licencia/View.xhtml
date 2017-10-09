@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="LicenciaViewDlg" widgetVar="LicenciaViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewLicenciaTitle}" closeOnEscape="true">
+
+            <h:form id="LicenciaViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{licenciaController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewLicenciaLabel_idLicencia}"/>
+                        <h:outputText value="#{licenciaController.selected.idLicencia}" title="#{myBundle.ViewLicenciaTitle_idLicencia}"/>
+
+                        <h:outputText value="#{myBundle.ViewLicenciaLabel_numero}"/>
+                        <h:outputText value="#{licenciaController.selected.numero}" title="#{myBundle.ViewLicenciaTitle_numero}"/>
+
+                        <h:outputText value="#{myBundle.ViewLicenciaLabel_fechaVencimiento}"/>
+                        <h:outputText value="#{licenciaController.selected.fechaVencimiento}" title="#{myBundle.ViewLicenciaTitle_fechaVencimiento}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewLicenciaLabel_idPiloto}"/>
+                        <h:outputText value="#{licenciaController.selected.idPiloto.idPiloto}"/>
+
+                        <h:outputText value="#{myBundle.ViewLicenciaLabel_idTipoLicencia}"/>
+                        <h:outputText value="#{licenciaController.selected.idTipoLicencia.descripcion}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('LicenciaViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

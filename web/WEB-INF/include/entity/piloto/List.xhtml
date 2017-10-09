@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="PilotoListForm">
+
+        <p:panel header="#{myBundle.ListPilotoTitle}">
+            <p:contextMenu id="PilotoDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{myBundle.Create}" onclick="document.getElementById('PilotoListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{myBundle.View}" onclick="document.getElementById('PilotoListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{myBundle.Edit}" onclick="document.getElementById('PilotoListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('PilotoListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.PilotoMenuItem_comisionCollection}" icon="ui-icon-search"  action="#{pilotoController.navigateComisionCollection}" disabled="#{pilotoController.isComisionCollectionEmpty}" ajax="false"/>  
+                <p:menuitem value="#{myBundle.PilotoMenuItem_idEstadoPiloto}" icon="ui-icon-search"  actionListener="#{pilotoController.prepareIdEstadoPiloto}" update=":EstadoPilotoViewForm" oncomplete="PF('EstadoPilotoViewDialog').show()" disabled="#{empty pilotoController.selected.idEstadoPiloto}"/>  
+                <p:menuitem value="#{myBundle.PilotoMenuItem_idGrupo}" icon="ui-icon-search"  actionListener="#{pilotoController.prepareIdGrupo}" update=":GrupoViewForm" oncomplete="PF('GrupoViewDialog').show()" disabled="#{empty pilotoController.selected.idGrupo}"/>  
+                <p:menuitem value="#{myBundle.PilotoMenuItem_licenciaCollection}" icon="ui-icon-search"  action="#{pilotoController.navigateLicenciaCollection}" disabled="#{pilotoController.isLicenciaCollectionEmpty}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{pilotoController.items}"
+                         lazy="false"
+                         rowKey="#{item.idPiloto}"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{pilotoController.selected}"
+                         filteredValue="#{pilotoController.filteredItems}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{pilotoController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.idPiloto}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:PilotoDataTableContextMenu" listener="#{pilotoController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:PilotoDataTableContextMenu" listener="#{pilotoController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{pilotoController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('PilotoListForm:viewButton').click();"/>
+                
+                <ui:remove>
+                    <p:column sortBy="#{item.idPiloto}" filterBy="#{item.idPiloto}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListPilotoTitle_idPiloto}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idPiloto}"/>
+                    </p:column>
+                </ui:remove>
+
+                <p:column sortBy="#{item.usuarioPilotoPdh}" filterBy="#{item.usuarioPilotoPdh}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListPilotoTitle_usuarioPilotoPdh}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.usuarioPilotoPdh}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.nombre}" filterBy="#{item.nombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListPilotoTitle_nombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombre}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.apellido}" filterBy="#{item.apellido}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListPilotoTitle_apellido}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.apellido}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.fechaNacimiento}" filterBy="#{item.fechaNacimiento}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListPilotoTitle_fechaNacimiento}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaNacimiento}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.telefono}" filterBy="#{item.telefono}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListPilotoTitle_telefono}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.telefono}"/>
+                </p:column>
+                <p:column sortBy="#{item.idEstadoPiloto.descripcion}" filterBy="#{item.idEstadoPiloto.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListPilotoTitle_idEstadoPiloto}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idEstadoPiloto.descripcion}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.idGrupo.descripcion}" filterBy="#{item.idGrupo.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListPilotoTitle_idGrupo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idGrupo.descripcion}"/>
+                </p:column>
+                
+                <ui:remove>
+                    <p:column sortBy="#{item.adicional1}" filterBy="#{item.adicional1}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListPilotoTitle_adicional1}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.adicional1}"/>
+                    </p:column>
+                </ui:remove>
+                <ui:remove>
+                    <p:column sortBy="#{item.adicional2}" filterBy="#{item.adicional2}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListPilotoTitle_adicional2}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.adicional2}"/>
+                    </p:column>
+                </ui:remove>
+                <ui:remove>
+                    <p:column sortBy="#{item.adicional3}" filterBy="#{item.adicional3}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListPilotoTitle_adicional3}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.adicional3}"/>
+                    </p:column>
+                </ui:remove>
+                <ui:remove>
+                    <p:column sortBy="#{item.adicional4}" filterBy="#{item.adicional4}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListPilotoTitle_adicional4}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.adicional4}"/>
+                    </p:column>
+                </ui:remove>
+                
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{pilotoController.prepareCreate}" update=":PilotoCreateForm" oncomplete="PF('PilotoCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":PilotoViewForm" oncomplete="PF('PilotoViewDialog').show()" disabled="#{empty pilotoController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":PilotoEditForm" oncomplete="PF('PilotoEditDialog').show()" disabled="#{empty pilotoController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{pilotoController.delete}" update=":growl,datalist" disabled="#{empty pilotoController.selected}">
+                <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

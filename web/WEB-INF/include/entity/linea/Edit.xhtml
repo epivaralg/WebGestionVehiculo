@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="LineaEditDlg" widgetVar="LineaEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditLineaTitle}" closeOnEscape="true">
+
+            <h:form id="LineaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{lineaController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditLineaLabel_idLinea}" for="idLinea" />
+                        <h:outputText id="idLinea" value="#{lineaController.selected.idLinea}" />
+
+                        <p:outputLabel value="#{myBundle.EditLineaLabel_descripcion}" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{lineaController.selected.descripcion}" title="#{myBundle.EditLineaTitle_descripcion}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.EditLineaLabel_idMarca}" for="idMarca" />
+                        <p:selectOneMenu id="idMarca" value="#{lineaController.selected.idMarca}"  converter="marcaConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{marcaController.items}"
+                                           var="idMarcaItem"
+                                           itemValue="#{idMarcaItem}"
+                                           itemLabel="#{idMarcaItem.descripcion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{lineaController.save}" value="#{myBundle.Save}" update="display,:LineaListForm:datalist,:LineaListForm:LineaDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('LineaEditDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('LineaEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,35 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>INGRESO</title>
+        <style>
+            body{
+                background-image: url(resources/imagen/fondo.jpg);
+                background-repeat: no-repeat;
+                background-size: 100%
+            }
+        </style>
+    </h:head> <h:body style="text-align:center">
+    <p:growl id="mensajes" showDetail="true" life="2000" />
+    <h:form>
+        <br/><br/><br/><br/><br/><br/>
+       <center>
+           <h:outputLabel value="INGRESO"/>
+           <br/>
+           <br/>
+                 <h:outputLabel for="username" value="Username: " />
+                 <p:inputText id="username" value="#{ingresoController.username}" required="true" label="username" />
+            <br/>    
+            <br/>
+            <h:outputLabel for="password" value="Password: " />
+            <p:password id="password" value="#{ingresoController.password}" required="true" label="password" />
+            <br/>
+            <br/>
+            <h:commandButton value="Login"  action="#{ingresoController.login()}"/>
+           </center>
+    </h:form>
+    </h:body>
+</html>

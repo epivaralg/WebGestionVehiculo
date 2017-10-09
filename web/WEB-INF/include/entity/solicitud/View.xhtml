@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="SolicitudViewDlg" widgetVar="SolicitudViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewSolicitudTitle}" closeOnEscape="true">
+
+            <h:form id="SolicitudViewForm">
+
+                <h:panelGroup id="display">
+                    <p:tabView id="SolicitudTabView">
+
+                        <p:tab id="SolicitudTab1" title="#{myBundle.TabHeaderPrefix} 1">
+                            <p:panelGrid columns="2" columnClasses="column" rendered="#{solicitudController.selected != null}">
+                                <h:outputText value="#{myBundle.ViewSolicitudLabel_idSolicitud}"/>
+                                <h:outputText value="#{solicitudController.selected.idSolicitud}" title="#{myBundle.ViewSolicitudTitle_idSolicitud}"/>
+
+                                <h:outputText value="#{myBundle.ViewSolicitudLabel_fechaHoraSolicitud}"/>
+                                <h:outputText value="#{solicitudController.selected.fechaHoraSolicitud}" title="#{myBundle.ViewSolicitudTitle_fechaHoraSolicitud}">
+                                    <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                                </h:outputText>
+
+                                <h:outputText value="#{myBundle.ViewSolicitudLabel_usuarioPdh}"/>
+                                <h:outputText value="#{solicitudController.selected.usuarioPdh}" title="#{myBundle.ViewSolicitudTitle_usuarioPdh}"/>
+
+                                <h:outputText value="#{myBundle.ViewSolicitudLabel_nombreEncargado}"/>
+                                <h:outputText value="#{solicitudController.selected.nombreEncargado}" title="#{myBundle.ViewSolicitudTitle_nombreEncargado}"/>
+
+                                <h:outputText value="#{myBundle.ViewSolicitudLabel_telefono}"/>
+                                <h:outputText value="#{solicitudController.selected.telefono}" title="#{myBundle.ViewSolicitudTitle_telefono}"/>
+
+                                <h:outputText value="#{myBundle.ViewSolicitudLabel_cantidadPasajeros}"/>
+                                <h:outputText value="#{solicitudController.selected.cantidadPasajeros}" title="#{myBundle.ViewSolicitudTitle_cantidadPasajeros}"/>
+
+                                <h:outputText value="#{myBundle.ViewSolicitudLabel_fechaHoraSalida}"/>
+                                <h:outputText value="#{solicitudController.selected.fechaHoraSalida}" title="#{myBundle.ViewSolicitudTitle_fechaHoraSalida}">
+                                    <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                                </h:outputText>
+
+                                <h:outputText value="#{myBundle.ViewSolicitudLabel_fechaHoraRegreso}"/>
+                                <h:outputText value="#{solicitudController.selected.fechaHoraRegreso}" title="#{myBundle.ViewSolicitudTitle_fechaHoraRegreso}">
+                                    <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                                </h:outputText>
+
+                                <h:outputText value="#{myBundle.ViewSolicitudLabel_comentario}"/>
+                                <h:outputText value="#{solicitudController.selected.comentario}" title="#{myBundle.ViewSolicitudTitle_comentario}"/>
+
+                                <h:outputText value="#{myBundle.ViewSolicitudLabel_adicional1}"/>
+                                <h:outputText value="#{solicitudController.selected.adicional1}" title="#{myBundle.ViewSolicitudTitle_adicional1}"/>
+
+                                <h:outputText value="#{myBundle.ViewSolicitudLabel_adicional2}"/>
+                                <h:outputText value="#{solicitudController.selected.adicional2}" title="#{myBundle.ViewSolicitudTitle_adicional2}"/>
+
+                                <h:outputText value="#{myBundle.ViewSolicitudLabel_adicional3}"/>
+                                <h:outputText value="#{solicitudController.selected.adicional3}" title="#{myBundle.ViewSolicitudTitle_adicional3}"/>
+
+                                <h:outputText value="#{myBundle.ViewSolicitudLabel_adicional4}"/>
+                                <h:outputText value="#{solicitudController.selected.adicional4}" title="#{myBundle.ViewSolicitudTitle_adicional4}"/>
+
+                                <h:outputText value="#{myBundle.ViewSolicitudLabel_idUsuarioAprobador}"/>
+                                <h:outputText value="#{solicitudController.selected.idUsuarioAprobador.idUsuario}"/>
+
+                                <h:outputText value="#{myBundle.ViewSolicitudLabel_idComision}"/>
+                                <h:outputText value="#{solicitudController.selected.idComision.idComision}"/>
+
+                                <h:outputText value="#{myBundle.ViewSolicitudLabel_idUsuarioGestor}"/>
+                                <h:outputText value="#{solicitudController.selected.idUsuarioGestor.idUsuario}"/>
+
+                                <h:outputText value="#{myBundle.ViewSolicitudLabel_idTipoComision}"/>
+                                <h:outputText value="#{solicitudController.selected.idTipoComision.descripcion}"/>
+
+                                <h:outputText value="#{myBundle.ViewSolicitudLabel_idTipoUsoVehiculo}"/>
+                                <h:outputText value="#{solicitudController.selected.idTipoUsoVehiculo.descripcion}"/>
+
+                                <h:outputText value="#{myBundle.ViewSolicitudLabel_idUsuario}"/>
+                                <h:outputText value="#{solicitudController.selected.idUsuario.idUsuario}"/>
+                            </p:panelGrid>
+                        </p:tab>
+                    </p:tabView>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('SolicitudViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

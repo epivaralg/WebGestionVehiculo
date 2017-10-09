@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="ComisionListForm">
+
+        <p:panel header="#{myBundle.ListComisionTitle}">
+            <p:contextMenu id="ComisionDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{myBundle.Create}" onclick="document.getElementById('ComisionListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{myBundle.View}" onclick="document.getElementById('ComisionListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{myBundle.Edit}" onclick="document.getElementById('ComisionListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('ComisionListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.ComisionMenuItem_idPiloto}" icon="ui-icon-search"  actionListener="#{comisionController.prepareIdPiloto}" update=":PilotoViewForm" oncomplete="PF('PilotoViewDialog').show()" disabled="#{empty comisionController.selected.idPiloto}"/>  
+                <p:menuitem value="#{myBundle.ComisionMenuItem_idTipoComision}" icon="ui-icon-search"  actionListener="#{comisionController.prepareIdTipoComision}" update=":TipoComisionViewForm" oncomplete="PF('TipoComisionViewDialog').show()" disabled="#{empty comisionController.selected.idTipoComision}"/>  
+                <p:menuitem value="#{myBundle.ComisionMenuItem_placa}" icon="ui-icon-search"  actionListener="#{comisionController.preparePlaca}" update=":VehiculoViewForm" oncomplete="PF('VehiculoViewDialog').show()" disabled="#{empty comisionController.selected.placa}"/>  
+                <p:menuitem value="#{myBundle.ComisionMenuItem_solicitudCollection}" icon="ui-icon-search"  action="#{comisionController.navigateSolicitudCollection}" disabled="#{comisionController.isSolicitudCollectionEmpty}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{comisionController.items}"
+                         lazy="false"
+                         rowKey="#{item.idComision}"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{comisionController.selected}"
+                         filteredValue="#{comisionController.filteredItems}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{comisionController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.idComision}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ComisionDataTableContextMenu" listener="#{comisionController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ComisionDataTableContextMenu" listener="#{comisionController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{comisionController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('ComisionListForm:viewButton').click();"/>
+                
+                <ui:remove>
+                <p:column sortBy="#{item.idComision}" filterBy="#{item.idComision}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListComisionTitle_idComision}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idComision}"/>
+                </p:column>
+                </ui:remove>
+                    <p:column sortBy="#{item.idPiloto.idPiloto}" filterBy="#{item.idPiloto.idPiloto}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListComisionTitle_idPiloto}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idPiloto.usuarioPilotoPdh}"/>
+                    </p:column>
+                    <p:column sortBy="#{item.idTipoComision.descripcion}" filterBy="#{item.idTipoComision.descripcion}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListComisionTitle_idTipoComision}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idTipoComision.descripcion}"/>
+                    </p:column>
+                    <p:column sortBy="#{item.placa.placa}" filterBy="#{item.placa.placa}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListComisionTitle_placa}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.placa.placa}"/>
+                    </p:column>
+                <ui:remove>
+                <p:column sortBy="#{item.fechaHoraSalida}" filterBy="#{item.fechaHoraSalida}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListComisionTitle_fechaHoraSalida}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaHoraSalida}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+                    </ui:remove>
+                <ui:remove>
+                <p:column sortBy="#{item.fechaHoraRegreso}" filterBy="#{item.fechaHoraRegreso}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListComisionTitle_fechaHoraRegreso}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaHoraRegreso}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+                    </ui:remove>
+
+<ui:remove>
+                <p:column sortBy="#{item.kmSalida}" filterBy="#{item.kmSalida}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListComisionTitle_kmSalida}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.kmSalida}"/>
+                </p:column>
+</ui:remove>
+<ui:remove>
+                <p:column sortBy="#{item.kmRegreso}" filterBy="#{item.kmRegreso}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListComisionTitle_kmRegreso}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.kmRegreso}"/>
+                </p:column>
+</ui:remove>
+<ui:remove>
+                <p:column sortBy="#{item.informePiloto}" filterBy="#{item.informePiloto}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListComisionTitle_informePiloto}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.informePiloto}"/>
+                </p:column>
+</ui:remove>
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{comisionController.prepareCreate}" update=":ComisionCreateForm" oncomplete="PF('ComisionCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":ComisionViewForm" oncomplete="PF('ComisionViewDialog').show()" disabled="#{empty comisionController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":ComisionEditForm" oncomplete="PF('ComisionEditDialog').show()" disabled="#{empty comisionController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{comisionController.delete}" update=":growl,datalist" disabled="#{empty comisionController.selected}">
+                <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

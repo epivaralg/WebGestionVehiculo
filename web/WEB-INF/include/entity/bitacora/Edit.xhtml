@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="BitacoraEditDlg" widgetVar="BitacoraEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditBitacoraTitle}" closeOnEscape="true">
+
+            <h:form id="BitacoraEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{bitacoraController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditBitacoraLabel_idBitacora}" for="idBitacora" />
+                        <h:outputText id="idBitacora" value="#{bitacoraController.selected.idBitacora}" />
+
+                        <p:outputLabel value="#{myBundle.EditBitacoraLabel_fechaHora}" for="fechaHora" />
+                        <p:calendar id="fechaHora" pattern="MM/dd/yyyy HH:mm:ss" value="#{bitacoraController.selected.fechaHora}" title="#{myBundle.EditBitacoraTitle_fechaHora}"  showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.EditBitacoraLabel_tabla}" for="tabla" />
+                        <p:inputText id="tabla" value="#{bitacoraController.selected.tabla}" title="#{myBundle.EditBitacoraTitle_tabla}" size="20" maxlength="20"/>
+
+                        <p:outputLabel value="#{myBundle.EditBitacoraLabel_campo}" for="campo" />
+                        <p:inputText id="campo" value="#{bitacoraController.selected.campo}" title="#{myBundle.EditBitacoraTitle_campo}" size="20" maxlength="20"/>
+
+                        <p:outputLabel value="#{myBundle.EditBitacoraLabel_valorAnterior}" for="valorAnterior" />
+                        <p:inputText id="valorAnterior" value="#{bitacoraController.selected.valorAnterior}" title="#{myBundle.EditBitacoraTitle_valorAnterior}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{myBundle.EditBitacoraLabel_valorNuevo}" for="valorNuevo" />
+                        <p:inputText id="valorNuevo" value="#{bitacoraController.selected.valorNuevo}" title="#{myBundle.EditBitacoraTitle_valorNuevo}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{myBundle.EditBitacoraLabel_idTipoBitacora}" for="idTipoBitacora" />
+                        <p:selectOneMenu id="idTipoBitacora" value="#{bitacoraController.selected.idTipoBitacora}"  converter="tipoBitacoraConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{tipoBitacoraController.items}"
+                                           var="idTipoBitacoraItem"
+                                           itemValue="#{idTipoBitacoraItem}"
+                                           itemLabel="#{idTipoBitacoraItem.descripcion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.EditBitacoraLabel_idUsuario}" for="idUsuario" />
+                        <p:selectOneMenu id="idUsuario" value="#{bitacoraController.selected.idUsuario}"  converter="usuarioConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{usuarioController.items}"
+                                           var="idUsuarioItem"
+                                           itemValue="#{idUsuarioItem}"
+                                           itemLabel="#{idUsuarioItem.idUsuario.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{bitacoraController.save}" value="#{myBundle.Save}" update="display,:BitacoraListForm:datalist,:BitacoraListForm:BitacoraDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('BitacoraEditDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('BitacoraEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>
