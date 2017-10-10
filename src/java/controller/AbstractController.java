@@ -1,7 +1,6 @@
 package controller;
 
 import facade.AbstractFacade;
-import facade.LazyEntityDataModel;
 import controller.util.JsfUtil;
 import ejb.Usuario;
 import java.io.Serializable;
@@ -36,7 +35,6 @@ public abstract class AbstractController<T> implements Serializable {
     private Class<T> itemClass;
     private T selected;
     private Collection<T> items;
-    private LazyEntityDataModel<T> lazyItems;
     private List<T> filteredItems;
 
     private enum PersistAction {
@@ -143,24 +141,7 @@ public abstract class AbstractController<T> implements Serializable {
      *
      * @return Entity-specific Lazy Data Model
      */
-    public LazyEntityDataModel<T> getLazyItems() {
-        if (lazyItems == null) {
-            lazyItems = new LazyEntityDataModel<>(this.ejbFacade);
-        }
-        return lazyItems;
-    }
 
-    public void setLazyItems(LazyEntityDataModel<T> lazyItems) {
-        this.lazyItems = lazyItems;
-    }
-
-    public void setLazyItems(Collection<T> items) {
-        if (items instanceof List) {
-            lazyItems = new LazyEntityDataModel<>((List<T>) items);
-        } else {
-            lazyItems = new LazyEntityDataModel<>(new ArrayList<>(items));
-        }
-    }
 
     public List<T> getFilteredItems() {
         return filteredItems;
@@ -209,7 +190,6 @@ public abstract class AbstractController<T> implements Serializable {
         persist(PersistAction.CREATE, msg);
         if (!isValidationFailed()) {
             items = null; // Invalidate list of items to trigger re-query.
-            lazyItems = null; // Invalidate list of lazy items to trigger re-query.
         }
     }
 
@@ -225,7 +205,6 @@ public abstract class AbstractController<T> implements Serializable {
         if (!isValidationFailed()) {
             selected = null; // Remove selection
             items = null; // Invalidate list of items to trigger re-query.
-            lazyItems = null; // Invalidate list of lazy items to trigger re-query.
         }
     }
 
@@ -325,7 +304,6 @@ public abstract class AbstractController<T> implements Serializable {
         Object paramItems = FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get(itemClass.getSimpleName() + "_items");
         if (paramItems != null) {
             setItems((Collection<T>) paramItems);
-            setLazyItems((Collection<T>) paramItems);
         }
     }
 
